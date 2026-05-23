@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>EduNexus – Learning Management System</title>
+
+<!-- Bootstrap 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+
+</head>
+<body>
+    
+<!-- ============================================================
+     LOGIN SCREEN
+============================================================ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-mark">E</div>
+      <span class="logo-text">Edu<span>Nexus</span></span>
+    </div>
+    <div class="login-title">Welcome back 👋</div>
+    <div class="login-sub">Choose your role and sign in to continue</div>
+
+    <!-- Role Picker -->
+    <div class="mb-3">
+      <div class="form-label">Select Role</div>
+      <div class="role-chips">
+        <button class="role-chip active" data-role="admin">🛡 Admin</button>
+        <button class="role-chip" data-role="instructor">🎓 Instructor</button>
+        <button class="role-chip" data-role="student">📚 Student</button>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="mb-3">
+      <div class="form-label">Email Address</div>
+      <input type="email" class="form-control-dark" id="loginEmail" placeholder="you@edunexus.io" value="admin@edunexus.io"/>
+    </div>
+
+    <!-- Password -->
+    <div class="mb-3">
+      <div class="form-label">Password</div>
+      <input type="password" class="form-control-dark" id="loginPassword" placeholder="••••••••" value="password"/>
+    </div>
+
+    <button class="btn-login" id="btnLogin">Sign In &rarr;</button>
+
+    <div class="demo-hint">
+      Demo credentials auto-filled. <br/>
+      Try <span>Admin</span> · <span>Instructor</span> · <span>Student</span> roles
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     APP LAYOUT
+============================================================ -->
+<div id="appLayout">
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- SIDEBAR -->
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo-mark">E</div>
+      <span class="sidebar-brand">Edu<span>Nexus</span></span>
+    </div>
+    <span class="sidebar-role-badge" id="sidebarRoleBadge">Admin</span>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Main</div>
+      <div id="navItems"><!-- injected by JS --></div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar" id="userAvatar"></div>
+        <div>
+          <div class="user-name" id="userName"></div>
+          <div class="user-role" id="userRoleLbl"></div>
+        </div>
+        <button class="btn-logout" id="btnLogout" title="Logout"><i class="bi bi-box-arrow-right"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div id="mainContent">
+    <!-- TOP BAR -->
+    <div id="topBar">
+      <button class="btn-toggle" id="btnToggle"><i class="bi bi-list"></i></button>
+      <span class="topbar-title" id="topBarTitle">Dashboard</span>
+      <div class="topbar-search">
+        <i class="bi bi-search" style="color:var(--text-muted);font-size:13px"></i>
+        <input type="text" placeholder="Search courses, users…"/>
+      </div>
+      <div class="topbar-icons">
+        <div class="topbar-icon-btn"><i class="bi bi-bell"></i><span class="notif-badge"></span></div>
+        <div class="topbar-icon-btn"><i class="bi bi-gear"></i></div>
+      </div>
+    </div>
+
+    <!-- ── ADMIN SECTIONS ── -->
+    <div id="section-admin-dashboard" class="page-section">
+      <div class="page-header">
+        <h2>Admin Dashboard</h2>
+        <p>Platform overview — all metrics at a glance</p>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3">
+          <div class="stat-card c1 fade-in">
+            <div class="stat-icon ic1"><i class="bi bi-people-fill"></i></div>
+            <div class="stat-val">4,821</div>
+            <div class="stat-lbl">Total Users</div>
+            <div class="stat-delta delta-up"><i class="bi bi-arrow-up-right"></i>+12.4% this month</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card c2 fade-in" style="animation-delay:.07s">
+            <div class="stat-icon ic2"><i class="bi bi-journal-bookmark-fill"></i></div>
+            <div class="stat-val">186</div>
+            <div class="stat-lbl">Active Courses</div>
+            <div class="stat-delta delta-up"><i class="bi bi-arrow-up-right"></i>+8 new this week</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card c3 fade-in" style="animation-delay:.14s">
+            <div class="stat-icon ic3"><i class="bi bi-graph-up-arrow"></i></div>
+            <div class="stat-val">78.3%</div>
+            <div class="stat-lbl">Avg Completion</div>
+            <div class="stat-delta delta-down"><i class="bi bi-arrow-down-right"></i>-2.1% vs last</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card c4 fade-in" style="animation-delay:.21s">
+            <div class="stat-icon ic4"><i class="bi bi-currency-dollar"></i></div>
+            <div class="stat-val">$94.7K</div>
+            <div class="stat-lbl">Monthly Revenue</div>
+            <div class="stat-delta delta-up"><i class="bi bi-arrow-up-right"></i>+19.2% vs last</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="row g-3 mb-4">
+        <div class="col-lg-8">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">Enrollment Trends</span>
+              <span class="kpi-chip">Last 6 months</span>
+            </div>
+            <canvas id="chartEnrollment" height="220"></canvas>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="chart-card h-100">
+            <div class="chart-card-header">
+              <span class="chart-card-title">Users by Role</span>
+            </div>
+            <canvas id="chartRoleDonut" height="220"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Users Table -->
+      <div class="chart-card mb-4">
+        <div class="chart-card-header">
+          <span class="chart-card-title">Recent Registrations</span>
+          <button class="btn-ghost" style="padding:6px 14px;font-size:12px">View All</button>
+        </div>
+        <div class="table-responsive">
+          <table class="lms-table">
+            <thead>
+              <tr><th>User</th><th>Role</th><th>Course</th><th>Status</th><th>Joined</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="d-flex align-items-center gap-2"><div class="avatar-sm" style="background:linear-gradient(135deg,#5b55c8,#322e82)">AK</div>Arjun Kumar</div></td>
+                <td><span class="tag tag-primary">Student</span></td>
+                <td>ML Fundamentals</td>
+                <td><span class="tag tag-active">Active</span></td>
+                <td style="color:var(--text-muted)">May 20, 2026</td>
+              </tr>
+              <tr>
+                <td><div class="d-flex align-items-center gap-2"><div class="avatar-sm" style="background:linear-gradient(135deg,#14b87a,#0d7a52)">SP</div>Sneha Patel</div></td>
+                <td><span class="tag tag-active" style="background:rgba(20,184,122,.15);color:var(--jade)">Instructor</span></td>
+                <td>React Masterclass</td>
+                <td><span class="tag tag-active">Active</span></td>
+                <td style="color:var(--text-muted)">May 18, 2026</td>
+              </tr>
+              <tr>
+                <td><div class="d-flex align-items-center gap-2"><div class="avatar-sm" style="background:linear-gradient(135deg,#f25c78,#c2185b)">RN</div>Raj Nair</div></td>
+                <td><span class="tag tag-primary">Student</span></td>
+                <td>Data Visualization</td>
+                <td><span class="tag tag-pending">Pending</span></td>
+                <td style="color:var(--text-muted)">May 17, 2026</td>
+              </tr>
+              <tr>
+                <td><div class="d-flex align-items-center gap-2"><div class="avatar-sm" style="background:linear-gradient(135deg,#38b6f5,#0d7ab5)">PM</div>Priya M.</div></td>
+                <td><span class="tag tag-primary">Student</span></td>
+                <td>Python Bootcamp</td>
+                <td><span class="tag tag-active">Active</span></td>
+                <td style="color:var(--text-muted)">May 16, 2026</td>
+              </tr>
+              <tr>
+                <td><div class="d-flex align-items-center gap-2"><div class="avatar-sm" style="background:linear-gradient(135deg,#f5a623,#e8920a)">VS</div>Vikram S.</div></td>
+                <td><span class="tag tag-inactive" style="background:rgba(242,92,120,.15);color:var(--rose)">Admin</span></td>
+                <td>Platform Admin</td>
+                <td><span class="tag tag-active">Active</span></td>
+                <td style="color:var(--text-muted)">May 14, 2026</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Activity + Revenue -->
+      <div class="row g-3">
+        <div class="col-lg-6">
+          <div class="chart-card">
+            <div class="chart-card-header"><span class="chart-card-title">Revenue by Course Type</span></div>
+            <canvas id="chartRevBar" height="180"></canvas>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="chart-card">
+            <div class="chart-card-header"><span class="chart-card-title">Completion Rate Trend</span></div>
+            <canvas id="chartCompletion" height="180"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="section-admin-users" class="page-section">
+      <div class="page-header d-flex align-items-center justify-content-between">
+        <div><h2>User Management</h2><p>Manage all platform users and roles</p></div>
+        <button class="btn-primary-lms"><i class="bi bi-plus-lg"></i>Add User</button>
+      </div>
+      <!-- Filter bar -->
+      <div class="d-flex gap-2 mb-3 flex-wrap">
+        <button class="btn-amber-lms" style="padding:7px 16px;font-size:12px">All</button>
+        <button class="btn-ghost" style="padding:7px 16px;font-size:12px">Students</button>
+        <button class="btn-ghost" style="padding:7px 16px;font-size:12px">Instructors</button>
+        <button class="btn-ghost" style="padding:7px 16px;font-size:12px">Admins</button>
+      </div>
+      <div class="chart-card">
+        <div class="table-responsive">
+          <table class="lms-table">
+            <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Courses</th><th>Last Active</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="userTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="section-admin-courses" class="page-section">
+      <div class="page-header d-flex align-items-center justify-content-between">
+        <div><h2>Course Management</h2><p>Oversee all platform courses</p></div>
+        <button class="btn-primary-lms"><i class="bi bi-plus-lg"></i>New Course</button>
+      </div>
+      <div class="row g-3" id="adminCourseGrid"></div>
+    </div>
+
+    <div id="section-admin-analytics" class="page-section">
+      <div class="page-header"><h2>Analytics</h2><p>Deep-dive into platform metrics</p></div>
+      <div class="row g-3">
+        <div class="col-lg-6"><div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Monthly Active Users</span></div><canvas id="chartMAU" height="220"></canvas></div></div>
+        <div class="col-lg-6"><div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Course Category Distribution</span></div><canvas id="chartCategory" height="220"></canvas></div></div>
+        <div class="col-12"><div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Daily Logins (Last 30 Days)</span></div><canvas id="chartLogins" height="140"></canvas></div></div>
+      </div>
+    </div>
+
+    <!-- ── INSTRUCTOR SECTIONS ── -->
+    <div id="section-instructor-dashboard" class="page-section">
+      <div class="page-header"><h2>Instructor Dashboard</h2><p>Manage your courses and students</p></div>
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3"><div class="stat-card c1"><div class="stat-icon ic1"><i class="bi bi-journals"></i></div><div class="stat-val">7</div><div class="stat-lbl">My Courses</div><div class="stat-delta delta-up"><i class="bi bi-arrow-up-right"></i>+1 published</div></div></div>
+        <div class="col-6 col-lg-3"><div class="stat-card c2"><div class="stat-icon ic2"><i class="bi bi-people"></i></div><div class="stat-val">342</div><div class="stat-lbl">Enrolled Students</div><div class="stat-delta delta-up"><i class="bi bi-arrow-up-right"></i>+24 this week</div></div></div>
+        <div class="col-6 col-lg-3"><div class="stat-card c3"><div class="stat-icon ic3"><i class="bi bi-star-fill"></i></div><div class="stat-val">4.8</div><div class="stat-lbl">Avg Rating</div><div class="stat-delta delta-up"><i class="bi bi-arrow-up-right"></i>Top 5% instructor</div></div></div>
+        <div class="col-6 col-lg-3"><div class="stat-card c4"><div class="stat-icon ic4"><i class="bi bi-chat-dots"></i></div><div class="stat-val">18</div><div class="stat-lbl">Pending Q&amp;A</div><div class="stat-delta delta-down"><i class="bi bi-arrow-down-right"></i>3 urgent</div></div></div>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-lg-7"><div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Student Progress Distribution</span><span class="kpi-chip">All courses</span></div><canvas id="chartStudentDist" height="220"></canvas></div></div>
+        <div class="col-lg-5">
+          <div class="chart-card h-100">
+            <div class="chart-card-header"><span class="chart-card-title">Recent Activity</span></div>
+            <div id="activityTimeline"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-12"><div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Top Performing Students</span><button class="btn-ghost" style="padding:6px 14px;font-size:12px">Export</button></div>
+          <div class="table-responsive"><table class="lms-table"><thead><tr><th>Rank</th><th>Student</th><th>Course</th><th>Progress</th><th>Score</th><th>Last Active</th></tr></thead><tbody id="topStudentsBody"></tbody></table></div>
+        </div></div>
+      </div>
+    </div>
+
+    <div id="section-instructor-mycourses" class="page-section">
+      <div class="page-header d-flex align-items-center justify-content-between">
+        <div><h2>My Courses</h2><p>Courses you created and manage</p></div>
+        <button class="btn-primary-lms"><i class="bi bi-plus-lg"></i>Create Course</button>
+      </div>
+      <div class="row g-3" id="instructorCourseGrid"></div>
+    </div>
+
+    <div id="section-instructor-students" class="page-section">
+      <div class="page-header"><h2>My Students</h2><p>Track progress across all enrolled students</p></div>
+      <div class="chart-card">
+        <div class="table-responsive">
+          <table class="lms-table">
+            <thead><tr><th>Student</th><th>Course</th><th>Progress</th><th>Assignments</th><th>Last Seen</th><th>Grade</th></tr></thead>
+            <tbody id="instructorStudentsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── STUDENT SECTIONS ── -->
+    <div id="section-student-dashboard" class="page-section">
+      <div class="page-header"><h2>My Learning Hub</h2><p>Track your progress and continue where you left off</p></div>
+
+      <div class="announce-card mb-4">
+        <span class="announce-icon">📢</span>
+        <div>
+          <div class="announce-title">Assignment Due: React Advanced Patterns — Tomorrow 11:59 PM</div>
+          <div class="announce-text">Your instructor Dr. Priya has shared feedback on last week's submission. Check it before submitting the next one!</div>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3"><div class="stat-card c1"><div class="stat-icon ic1"><i class="bi bi-play-circle-fill"></i></div><div class="stat-val">5</div><div class="stat-lbl">Active Courses</div><div class="stat-delta delta-up"><i class="bi bi-arrow-up-right"></i>2 near completion</div></div></div>
+        <div class="col-6 col-lg-3"><div class="stat-card c2"><div class="stat-icon ic2"><i class="bi bi-trophy-fill"></i></div><div class="stat-val">3</div><div class="stat-lbl">Certificates Earned</div><div class="stat-delta delta-up"><i class="bi bi-arrow-up-right"></i>+1 this month</div></div></div>
+        <div class="col-6 col-lg-3"><div class="stat-card c3"><div class="stat-icon ic3"><i class="bi bi-fire"></i></div><div class="stat-val">14</div><div class="stat-lbl">Day Streak 🔥</div><div class="stat-delta delta-up"><i class="bi bi-arrow-up-right"></i>Personal best!</div></div></div>
+        <div class="col-6 col-lg-3"><div class="stat-card c4"><div class="stat-icon ic4"><i class="bi bi-clock-history"></i></div><div class="stat-val">38h</div><div class="stat-lbl">Total Study Time</div><div class="stat-delta delta-up"><i class="bi bi-arrow-up-right"></i>+6h this week</div></div></div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-lg-8">
+          <div class="chart-card">
+            <div class="chart-card-header"><span class="chart-card-title">Weekly Study Activity</span><span class="kpi-chip">This week</span></div>
+            <canvas id="chartStudyActivity" height="200"></canvas>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="chart-card h-100">
+            <div class="chart-card-header"><span class="chart-card-title">Course Progress</span></div>
+            <canvas id="chartMyCourseProgress" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <h5 class="mb-3" style="font-family:'Syne',sans-serif;font-weight:700">Continue Learning</h5>
+      <div class="row g-3" id="studentCourseGrid"></div>
+    </div>
+
+    <div id="section-student-courses" class="page-section">
+      <div class="page-header"><h2>Course Catalogue</h2><p>Browse and enrol in new courses</p></div>
+      <div class="d-flex gap-2 mb-3 flex-wrap">
+        <button class="btn-amber-lms" style="padding:7px 16px;font-size:12px">All</button>
+        <button class="btn-ghost" style="padding:7px 16px;font-size:12px">Tech</button>
+        <button class="btn-ghost" style="padding:7px 16px;font-size:12px">Design</button>
+        <button class="btn-ghost" style="padding:7px 16px;font-size:12px">Business</button>
+        <button class="btn-ghost" style="padding:7px 16px;font-size:12px">Science</button>
+      </div>
+      <div class="row g-3" id="catalogueGrid"></div>
+    </div>
+
+    <div id="section-student-progress" class="page-section">
+      <div class="page-header"><h2>My Progress</h2><p>Detailed breakdown of your learning journey</p></div>
+      <div class="row g-3 mb-4">
+        <div class="col-lg-6"><div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Skills Radar</span></div><canvas id="chartSkillRadar" height="280"></canvas></div></div>
+        <div class="col-lg-6"><div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Monthly Learning Hours</span></div><canvas id="chartLearningHours" height="280"></canvas></div></div>
+      </div>
+
+      <!-- Leaderboard -->
+      <div class="chart-card mb-4">
+        <div class="chart-card-header"><span class="chart-card-title">Class Leaderboard</span><span class="kpi-chip">Top 5</span></div>
+        <div id="leaderboard"></div>
+      </div>
+
+      <!-- Achievements -->
+      <div class="chart-card">
+        <div class="chart-card-header"><span class="chart-card-title">Achievements</span></div>
+        <div class="row g-3" id="achievements"></div>
+      </div>
+    </div>
+
+    <!-- Shared Settings -->
+    <div id="section-settings" class="page-section">
+      <div class="page-header"><h2>Settings</h2><p>Manage your account preferences</p></div>
+      <div class="row g-3">
+        <div class="col-lg-6">
+          <div class="chart-card mb-3">
+            <div class="chart-card-header"><span class="chart-card-title">Profile</span></div>
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <div class="user-avatar" id="settingsAvatar" style="width:60px;height:60px;font-size:22px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-weight:800"></div>
+              <div><div id="settingsName" class="fw-bold" style="font-size:18px"></div><div id="settingsRole" style="color:var(--text-muted);font-size:13px"></div></div>
+            </div>
+            <div class="mb-3"><label class="form-label" style="font-size:13px;color:var(--text-muted)">Full Name</label><input class="form-control-dark" type="text" id="settingsNameInput"/></div>
+            <div class="mb-3"><label class="form-label" style="font-size:13px;color:var(--text-muted)">Email</label><input class="form-control-dark" type="email" id="settingsEmailInput"/></div>
+            <button class="btn-primary-lms">Save Changes</button>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="chart-card">
+            <div class="chart-card-header"><span class="chart-card-title">Notifications</span></div>
+            <div class="d-flex flex-column gap-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <div><div style="font-size:14px;font-weight:500">Email Notifications</div><div style="font-size:12px;color:var(--text-muted)">Receive updates via email</div></div>
+                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked/></div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div><div style="font-size:14px;font-weight:500">Course Reminders</div><div style="font-size:12px;color:var(--text-muted)">Daily study reminders</div></div>
+                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked/></div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div><div style="font-size:14px;font-weight:500">Assignment Deadlines</div><div style="font-size:12px;color:var(--text-muted)">Alerts before deadlines</div></div>
+                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked/></div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div><div style="font-size:14px;font-weight:500">New Announcements</div><div style="font-size:12px;color:var(--text-muted)">From instructors</div></div>
+                <div class="form-check form-switch"><input class="form-check-input" type="checkbox"/></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /mainContent -->
+</div><!-- /appLayout -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
